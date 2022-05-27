@@ -1,4 +1,4 @@
-package main
+package conditionals
 
 import (
 	"bufio"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func main() {
+func getUserInput() string {
 
 	//Prompt user to enter age
 	fmt.Print("Please enter your age: ")
@@ -22,9 +22,28 @@ func main() {
 	userAgeInput = strings.Replace(userAgeInput, "\r\n", "", -1)
 	// fmt.Printf("Cleaned user age: %vHi \n", userAgeInput)
 
-	// Change the age from string into integar
-	userAge, _ := strconv.ParseInt(userAgeInput, 10, 64)
+	return userAgeInput
+}
+
+func parseUserInput(userInput string) int64 {
+	// Change the age from string into integer
+	userAge, err := strconv.ParseInt(userInput, 10, 64)
 	// fmt.Printf("Parsed user age: %v", userAge)
+	// fmt.Println(err)
+
+	// If user enters a value that is not an integar, we want an error message:
+	if err != nil {
+		fmt.Println("Invalid Input!")
+		parseUserInput(getUserInput())
+	}
+
+	return userAge
+}
+
+func main() {
+
+	userInput := getUserInput()
+	userAge := parseUserInput(userInput)
 
 	// If Statement
 	if userAge >= 30 && userAge < 60 {
@@ -36,5 +55,7 @@ func main() {
 	} else {
 		fmt.Println("Sorry, you're not old enough 😐")
 	}
+
+	fmt.Println("Goodbye!")
 
 }
